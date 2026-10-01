@@ -1,16 +1,19 @@
-# my_portfolio
+# Hi, I'm Talaat Mohamed 🚀
+**Flutter & Mobile Application Developer**
 
-A new Flutter project.
+I am a passionate Flutter Developer dedicated to building beautiful, natively compiled, and high-performance applications for iOS, Android, and the Web from a single codebase. I focus on clean architecture, smooth animations, and robust state management.
 
-## Getting Started
+### 🛠️ Tech Stack & Tools
+- **Framework & Language:** Flutter, Dart
+- **State Management:** Provider / Riverpod / GetX 
+- **Local Databases:** Hive, ObjectBox, Shared Preferences
+- **Backend & Cloud:** Firebase (Auth, Firestore, Cloud Messaging), REST APIs
+- **Tools & Architecture:** Git, GitHub Actions, Clean Architecture, MVVM
 
-This project is a starting point for a Flutter application.
+### 📱 Featured Projects
+- **[Project Name 1](Link):** A cross-platform [E-commerce/Social/Fitness] app built with Flutter and Firebase featuring real-time updates.
+- **[Project Name 2](Link):** A clean UI dashboard app focusing on complex animations and custom painters.
 
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+### 📫 Connect with me:
+- 💼 LinkedIn: talaatmohamed84
+- 📧 Email: talaatmohamed2001@gmail.com
