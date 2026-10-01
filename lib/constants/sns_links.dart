@@ -5,5 +5,5 @@ class SnsLinks {
   static const String instagram = 'https://www.instagram.com/_talaat18/';
   static const String telegram = "https://";
   static const String kCV =
-      'https://drive.google.com/file/d/1IRRtyT6Ua7xl4L69fqdgxo4KabZuEzrO/view';
+      'https://drive.google.com/file/d/1jf7_3gPAes1C3FKTK-dW0M99bxpvMY2m/view';
 }
