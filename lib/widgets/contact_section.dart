@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:my_portfolio/constants/colors.dart';
-import 'package:my_portfolio/constants/size.dart';
 import 'package:my_portfolio/constants/sns_links.dart';
-import 'package:my_portfolio/widgets/custom_text_field.dart';
-import 'dart:js' as js;
+import 'package:my_portfolio/utils/external_url.dart';
 
 class ContactSection extends StatelessWidget {
   const ContactSection({super.key});
@@ -11,117 +9,230 @@ class ContactSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.fromLTRB(25, 20, 25, 60),
+      width: double.infinity,
       color: CustomColor.bgLight1,
-      child: Column(
-        spacing: 16.0,
-        children: [
-          // title
-          Text(
-            'Get in touch',
-            style: TextStyle(
-              fontSize: 24.0,
-              fontWeight: FontWeight.bold,
-              color: CustomColor.whitePrimary,
-            ),
-          ),
-          ConstrainedBox(
-            constraints: BoxConstraints(maxWidth: 700, maxHeight: 100),
-            child: LayoutBuilder(
-              builder: (context, constraints) {
-                if (constraints.maxWidth >= kMinDesktopWidth) {
-                  return buildDesktopNameEmailFields();
-                }
-                return buildMobileNameEmailFields();
-              },
-            ),
-          ),
-          // Message
-          ConstrainedBox(
-            constraints: BoxConstraints(maxWidth: 700),
-            child: CustomTextField(hintText: 'Your Message', maxLines: 12),
-          ),
-          // send Button
-          ConstrainedBox(
-            constraints: BoxConstraints(maxWidth: 700),
-            child: SizedBox(
-              width: double.maxFinite,
-              child: ElevatedButton(
-                onPressed: () {},
-                child: Text('Get in touch'),
-              ),
-            ),
-          ),
-          SizedBox(),
-          ConstrainedBox(
-            constraints: BoxConstraints(maxWidth: 400.0),
-            child: Divider(),
-          ),
-          SizedBox(),
-          // SNS icon button links
-          Wrap(
-            spacing: 46.0,
-            runSpacing: 5.0,
-            alignment: WrapAlignment.center,
+      padding: const EdgeInsets.fromLTRB(28, 60, 28, 76),
+      child: Center(
+        child: ConstrainedBox(
+          constraints: const BoxConstraints(maxWidth: 820),
+          child: Column(
             children: [
-              InkWell(
-                onTap: () {
-                  js.context.callMethod('open', [SnsLinks.github]);
-                },
-                child: Image.asset('assets/github.png', width: 30.0),
+              Text.rich(
+                TextSpan(
+                  style: TextStyle(
+                    fontSize: 40,
+                    fontWeight: FontWeight.bold,
+                    color: CustomColor.whitePrimary,
+                  ),
+                  children: [
+                    const TextSpan(text: 'Let’s build something '),
+                    TextSpan(
+                      text: 'great.',
+                      style: TextStyle(color: CustomColor.yellowSecondary),
+                    ),
+                  ],
+                ),
+                textAlign: TextAlign.center,
               ),
-              InkWell(
-                onTap: () {
-                  js.context.callMethod('open', [SnsLinks.linkedIn]);
-                },
-                child: Image.asset('assets/linkedin.png', width: 28.0),
+              const SizedBox(height: 12),
+              ConstrainedBox(
+                constraints: const BoxConstraints(maxWidth: 620),
+                child: Text(
+                  'I’m always open to discussing new projects, creative ideas, '
+                  'or opportunities to work together.',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    fontSize: 19,
+                    height: 1.6,
+                    color: CustomColor.whiteSecondary,
+                  ),
+                ),
               ),
-              InkWell(
-                onTap: () {
-                  // js.context.callMethod('open', [SnsLinks.telegram]);
+              const SizedBox(height: 30),
+              LayoutBuilder(
+                builder: (context, constraints) {
+                  final cards = [
+                    _ContactMethodCard(
+                      title: 'Email me',
+                      subtitle: SnsLinks.contactEmail,
+                      icon: Icons.mail_rounded,
+                      onTap: () =>
+                          openExternalUrl('mailto:${SnsLinks.contactEmail}'),
+                    ),
+                    _ContactMethodCard(
+                      title: 'WhatsApp',
+                      subtitle: 'Let’s chat directly',
+                      icon: Icons.chat_rounded,
+                      onTap: () => openExternalUrl(SnsLinks.whatsapp),
+                    ),
+                  ];
+
+                  if (constraints.maxWidth < 580) {
+                    return Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: [
+                        SizedBox(width: constraints.maxWidth, child: cards[0]),
+                        const SizedBox(height: 14),
+                        SizedBox(width: constraints.maxWidth, child: cards[1]),
+                      ],
+                    );
+                  }
+                  return Row(
+                    children: [
+                      Expanded(child: cards[0]),
+                      const SizedBox(width: 18),
+                      Expanded(child: cards[1]),
+                    ],
+                  );
                 },
-                child: Image.asset('assets/telegram.png', width: 32.0),
               ),
-              InkWell(
-                onTap: () {
-                  js.context.callMethod('open', [SnsLinks.facebook]);
-                },
-                child: Image.asset('assets/facebook.png', width: 28.0),
-              ),
-              InkWell(
-                onTap: () {
-                  js.context.callMethod('open', [SnsLinks.instagram]);
-                },
-                child: Image.asset('assets/instagram.png', width: 28.0),
+              const SizedBox(height: 26),
+              Wrap(
+                alignment: WrapAlignment.center,
+                spacing: 14,
+                runSpacing: 12,
+                children: [
+                  _SocialLink(
+                    label: 'LinkedIn',
+                    asset: 'assets/linkedin.png',
+                    url: SnsLinks.linkedIn,
+                  ),
+                  _SocialLink(
+                    label: 'GitHub',
+                    asset: 'assets/github.png',
+                    url: SnsLinks.github,
+                  ),
+                  _SocialLink(
+                    label: 'Instagram',
+                    asset: 'assets/instagram.png',
+                    url: SnsLinks.instagram,
+                  ),
+                  _SocialLink(
+                    label: 'Facebook',
+                    asset: 'assets/facebook.png',
+                    url: SnsLinks.facebook,
+                  ),
+                ],
               ),
             ],
           ),
-        ],
+        ),
       ),
     );
   }
+}
 
-  Row buildDesktopNameEmailFields() {
-    return Row(
-      spacing: 12.0,
-      children: [
-        // Name
-        Flexible(child: CustomTextField(hintText: 'Your Name')),
-        // Email
-        Flexible(child: CustomTextField(hintText: 'Your Email')),
-      ],
+class _ContactMethodCard extends StatelessWidget {
+  const _ContactMethodCard({
+    required this.title,
+    required this.subtitle,
+    required this.icon,
+    required this.onTap,
+  });
+
+  final String title;
+  final String subtitle;
+  final IconData icon;
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    return Material(
+      color: Colors.transparent,
+      borderRadius: BorderRadius.circular(18),
+      child: InkWell(
+        onTap: onTap,
+        borderRadius: BorderRadius.circular(18),
+        child: ConstrainedBox(
+          constraints: const BoxConstraints(minHeight: 178),
+          child: Ink(
+            padding: const EdgeInsets.all(16),
+            decoration: BoxDecoration(
+              color: CustomColor.bgLight2,
+              borderRadius: BorderRadius.circular(18),
+              border: Border.all(
+                color: CustomColor.whitePrimary.withValues(alpha: 0.08),
+              ),
+            ),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Container(
+                  width: 54,
+                  height: 54,
+                  decoration: BoxDecoration(
+                    color: CustomColor.yellowPrimary.withValues(alpha: 0.14),
+                    shape: BoxShape.circle,
+                  ),
+                  child: Icon(
+                    icon,
+                    color: CustomColor.yellowSecondary,
+                    size: 26,
+                  ),
+                ),
+                const SizedBox(height: 12),
+                Text(
+                  title,
+                  style: TextStyle(
+                    color: CustomColor.whitePrimary,
+                    fontSize: 22,
+                    fontWeight: FontWeight.w700,
+                  ),
+                ),
+                const SizedBox(height: 5),
+                Text(
+                  subtitle,
+                  textAlign: TextAlign.center,
+                  softWrap: true,
+                  style: TextStyle(
+                    color: CustomColor.whiteSecondary,
+                    fontSize: 15,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
     );
   }
+}
 
-  Column buildMobileNameEmailFields() {
-    return Column(
-      spacing: 12.0,
-      children: [
-        // Name
-        Flexible(child: CustomTextField(hintText: 'Your Name')),
-        // Email
-        Flexible(child: CustomTextField(hintText: 'Your Email')),
-      ],
+class _SocialLink extends StatelessWidget {
+  const _SocialLink({
+    required this.label,
+    required this.asset,
+    required this.url,
+  });
+
+  final String label;
+  final String asset;
+  final String url;
+
+  @override
+  Widget build(BuildContext context) {
+    return Tooltip(
+      message: label,
+      child: Material(
+        color: Colors.transparent,
+        shape: const CircleBorder(),
+        child: InkWell(
+          onTap: () => openExternalUrl(url),
+          customBorder: const CircleBorder(),
+          child: Ink(
+            width: 52,
+            height: 52,
+            decoration: BoxDecoration(
+              color: CustomColor.bgLight2,
+              shape: BoxShape.circle,
+              border: Border.all(
+                color: CustomColor.whitePrimary.withValues(alpha: 0.1),
+              ),
+            ),
+            child: Center(child: Image.asset(asset, width: 23, height: 23)),
+          ),
+        ),
+      ),
     );
   }
 }

@@ -2,6 +2,7 @@ class ProjectUtils {
   final String image;
   final String title;
   final String subtitle;
+  final List<String> technologies;
   final String? androidLink;
   final String? iosLink;
   final String? webLink;
@@ -10,6 +11,7 @@ class ProjectUtils {
     required this.image,
     required this.title,
     required this.subtitle,
+    this.technologies = const [],
     this.androidLink,
     this.iosLink,
     this.webLink,
@@ -84,6 +86,7 @@ List<ProjectUtils> workProjectUtils = [
         'https://play.google.com/store/apps/details?id=kr.co.evolcano.donotstudy',
     iosLink:
         "https://apps.apple.com/kr/app/%EC%98%81%EC%96%B4%EB%A8%B8%EB%A6%AC-%EA%B3%B5%EC%9E%91%EC%86%8C/id1507102714",
+    technologies: ['Technology 1', 'Technology 2', 'Technology 3'],
   ),
   ProjectUtils(
     image: 'assets/projects/w02.png',
@@ -91,6 +94,7 @@ List<ProjectUtils> workProjectUtils = [
     subtitle:
         'This is a responsive online shop web application for car engine oil.',
     webLink: 'https://www.elo.best',
+    technologies: ['Technology 1', 'Technology 2', 'Technology 3'],
   ),
   ProjectUtils(
     image: 'assets/projects/w03.jpeg',
@@ -98,5 +102,6 @@ List<ProjectUtils> workProjectUtils = [
     subtitle:
         'This is an Advertisement Management System to buy, sell, and manage advertisement.',
     webLink: 'https://www.externally.unavailable.project',
+    technologies: ['Technology 1', 'Technology 2', 'Technology 3'],
   ),
 ];

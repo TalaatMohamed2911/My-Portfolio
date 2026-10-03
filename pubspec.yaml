@@ -61,6 +61,11 @@ flutter:
   assets:
     - assets/
     - assets/projects/
+  fonts:
+    - family: OpenSans
+      fonts:
+        - asset: assets/fonts/OpenSans-Variable.ttf
+          weight: 600
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see

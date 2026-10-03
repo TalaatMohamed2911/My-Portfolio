@@ -13,7 +13,7 @@ class Portfolio extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       theme: ThemeData.dark(),
-      title: 'Talaat\'s Portfolio',
+      title: 'Talaat Mohamed | Portfolio',
       home: HomePage(),
     );
   }

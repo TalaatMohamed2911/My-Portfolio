@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:my_portfolio/constants/colors.dart';
+import 'package:my_portfolio/constants/size.dart';
 import 'package:my_portfolio/utils/project_utils.dart';
+import 'package:my_portfolio/widgets/accent_section_title.dart';
 import 'package:my_portfolio/widgets/project_card.dart';
 
 class ProjectsSection extends StatelessWidget {
@@ -8,53 +9,74 @@ class ProjectsSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final screenWidth = MediaQuery.of(context).size.width;
     return Container(
-      width: screenWidth,
-      padding: EdgeInsets.fromLTRB(25, 20, 25, 60),
+      width: double.infinity,
+      padding: EdgeInsets.fromLTRB(32, 36, 32, 80),
       child: Column(
-        spacing: 36.0,
+        spacing: 48,
         children: [
-          // work projects title
-          Text(
-            'Work Projects',
-            style: TextStyle(
-              fontSize: 22.0,
-              fontWeight: FontWeight.bold,
-              color: CustomColor.whitePrimary,
-            ),
+          AccentSectionTitle(
+            key: const ValueKey('projects-section-title'),
+            beforeAccent: 'Work ',
+            accent: 'Projects',
           ),
-          // work projects cards
           ConstrainedBox(
-            constraints: BoxConstraints(maxWidth: 900),
-            child: Wrap(
-              spacing: 12.0,
-              runSpacing: 18.0,
-              children: [
-                for (int i = 0; i < workProjectUtils.length; i++)
-                  ProjectCardWidget(project: workProjectUtils[i]),
-              ],
-            ),
-          ),
-          // Hobby projects title
-          Text(
-            'Hobby Projects',
-            style: TextStyle(
-              fontSize: 22.0,
-              fontWeight: FontWeight.bold,
-              color: CustomColor.whitePrimary,
-            ),
-          ),
-          // work projects cards
-          ConstrainedBox(
-            constraints: BoxConstraints(maxWidth: 900),
-            child: Wrap(
-              spacing: 12.0,
-              runSpacing: 18.0,
-              children: [
-                for (int i = 0; i < hobbyProjectUtils.length; i++)
-                  ProjectCardWidget(project: hobbyProjectUtils[i]),
-              ],
+            constraints: const BoxConstraints(maxWidth: 1200),
+            child: LayoutBuilder(
+              builder: (context, constraints) {
+                final isTwoColumn =
+                    MediaQuery.sizeOf(context).width >= kMinDesktopWidth;
+                final cardWidth = isTwoColumn
+                    ? (constraints.maxWidth - 24) / 2
+                    : constraints.maxWidth;
+
+                if (!isTwoColumn) {
+                  return Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    spacing: 28,
+                    children: [
+                      for (final project in workProjectUtils)
+                        ProjectCardWidget(
+                          project: project,
+                          cardWidth: cardWidth,
+                        ),
+                    ],
+                  );
+                }
+
+                return Column(
+                  spacing: 28,
+                  children: [
+                    for (
+                      var index = 0;
+                      index < workProjectUtils.length;
+                      index += 2
+                    )
+                      IntrinsicHeight(
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.stretch,
+                          children: [
+                            Expanded(
+                              child: ProjectCardWidget(
+                                project: workProjectUtils[index],
+                                cardWidth: cardWidth,
+                              ),
+                            ),
+                            const SizedBox(width: 24),
+                            Expanded(
+                              child: index + 1 < workProjectUtils.length
+                                  ? ProjectCardWidget(
+                                      project: workProjectUtils[index + 1],
+                                      cardWidth: cardWidth,
+                                    )
+                                  : const SizedBox.shrink(),
+                            ),
+                          ],
+                        ),
+                      ),
+                  ],
+                );
+              },
             ),
           ),
         ],
