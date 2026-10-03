@@ -45,6 +45,13 @@ void main() {
 
     expect(find.text('TECHNOLOGIES'), findsOneWidget);
     expect(find.text('Technology 17'), findsOneWidget);
+    final projectImage = tester.widget<Image>(
+      find.descendant(
+        of: find.byType(ProjectCardWidget),
+        matching: find.byType(Image),
+      ),
+    );
+    expect(projectImage.height, closeTo(230.4, 0.1));
     expect(
       tester.getSize(find.byType(ProjectCardWidget)).height,
       greaterThan(296),

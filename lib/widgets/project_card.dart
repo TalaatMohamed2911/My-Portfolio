@@ -22,7 +22,9 @@ class _ProjectCardWidgetState extends State<ProjectCardWidget> {
 
   @override
   Widget build(BuildContext context) {
-    final imageHeight = (widget.cardWidth * 0.3).clamp(130.0, 210.0);
+    final imageHeight = (widget.cardWidth * 0.72).clamp(180.0, 300.0);
+    final imageCacheWidth =
+        (widget.cardWidth * MediaQuery.devicePixelRatioOf(context)).round();
     return MouseRegion(
       onEnter: (_) => setState(() => _isHovered = true),
       onExit: (_) => setState(() => _isHovered = false),
@@ -30,7 +32,6 @@ class _ProjectCardWidgetState extends State<ProjectCardWidget> {
         duration: const Duration(milliseconds: 220),
         curve: Curves.easeOut,
         transform: Matrix4.translationValues(0, _isHovered ? -7 : 0, 0),
-        clipBehavior: Clip.antiAlias,
         width: double.infinity,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(12.0),
@@ -55,14 +56,27 @@ class _ProjectCardWidgetState extends State<ProjectCardWidget> {
           mainAxisSize: MainAxisSize.min,
           children: [
             // project image
-            AnimatedScale(
-              duration: const Duration(milliseconds: 300),
-              scale: _isHovered ? 1.04 : 1,
-              child: Image.asset(
-                widget.project.image,
+            ClipRRect(
+              borderRadius: const BorderRadius.vertical(
+                top: Radius.circular(12),
+              ),
+              child: SizedBox(
                 height: imageHeight,
                 width: double.infinity,
-                fit: BoxFit.cover,
+                child: AnimatedScale(
+                  duration: const Duration(milliseconds: 300),
+                  scale: _isHovered ? 1.04 : 1,
+                  child: RepaintBoundary(
+                    child: Image.asset(
+                      widget.project.image,
+                      height: imageHeight,
+                      width: double.infinity,
+                      cacheWidth: imageCacheWidth,
+                      fit: BoxFit.cover,
+                      filterQuality: FilterQuality.low,
+                    ),
+                  ),
+                ),
               ),
             ),
             // title

@@ -18,6 +18,7 @@ class _ScrollRevealState extends State<ScrollReveal>
     with SingleTickerProviderStateMixin {
   late final AnimationController _controller;
   late final Animation<double> _fade;
+  late final Animation<Offset> _slide;
 
   @override
   void initState() {
@@ -31,6 +32,10 @@ class _ScrollRevealState extends State<ScrollReveal>
       curve: Curves.easeOutCubic,
     );
     _fade = curvedAnimation;
+    _slide = Tween<Offset>(
+      begin: const Offset(0, 0.04),
+      end: Offset.zero,
+    ).animate(curvedAnimation);
     widget.scrollController.addListener(_checkVisibility);
     WidgetsBinding.instance.addPostFrameCallback((_) => _checkVisibility());
   }
@@ -68,6 +73,9 @@ class _ScrollRevealState extends State<ScrollReveal>
 
   @override
   Widget build(BuildContext context) {
-    return FadeTransition(opacity: _fade, child: widget.child);
+    return FadeTransition(
+      opacity: _fade,
+      child: SlideTransition(position: _slide, child: widget.child),
+    );
   }
 }
